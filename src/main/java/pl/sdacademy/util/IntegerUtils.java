@@ -2,10 +2,11 @@ package pl.sdacademy.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class IntegerFilters {
+public class IntegerUtils {
 
     public List<Integer> filter(int toFilter, final List<Integer> filters) {
         return toFilteredDigitsList(toFilter, digit -> !filters.contains(digit));
@@ -13,6 +14,12 @@ public class IntegerFilters {
 
     public List<Integer> filterDigitsGreaterThan(int toFilter, final int lowerBoundExclusive) {
         return toFilteredDigitsList(toFilter, digit -> digit > lowerBoundExclusive);
+    }
+
+    public Optional<Integer> getFirstEvenDigit(int number) {
+        return toDigitsList(number).stream()
+                .filter(digit -> digit % 2 == 0)
+                .findFirst();
     }
 
     private List<Integer> toDigitsList(int number) {
