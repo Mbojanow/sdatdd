@@ -12,11 +12,11 @@ public class IntegerUtils {
         return toFilteredDigitsList(toFilter, digit -> !filters.contains(digit));
     }
 
-    public List<Integer> filterDigitsGreaterThan(int toFilter, final int lowerBoundExclusive) {
+    public List<Integer> filterDigitsLowerThan(int toFilter, final int lowerBoundExclusive) {
         return toFilteredDigitsList(toFilter, digit -> digit > lowerBoundExclusive);
     }
 
-    public Optional<Integer> getFirstEvenDigit(int number) {
+    public Optional<Integer> getLastEvenDigit(int number) {
         return toDigitsList(number).stream()
                 .filter(digit -> digit % 2 == 0)
                 .findFirst();
