@@ -16,7 +16,7 @@ public class IntegerUtils {
         return toFilteredDigitsList(toFilter, digit -> digit > lowerBoundExclusive);
     }
 
-    public Optional<Integer> getFirstEvenDigit(int number) {
+    public Optional<Integer> getLastEvenDigit(int number) {
         return toDigitsList(number).stream()
                 .filter(digit -> digit % 2 == 0)
                 .findFirst();
