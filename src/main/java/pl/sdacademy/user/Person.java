@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.sdacademy.exceptions.PersonUpdateFailedException;
 
 import java.util.Optional;
@@ -14,6 +15,7 @@ import static java.util.Objects.isNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(of={"firstName"})
 public class Person {
     private String firstName;
     private String lastName;

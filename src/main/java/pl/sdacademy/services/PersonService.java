@@ -16,7 +16,8 @@ public class PersonService {
     public Person getByEmail(final String email) {
         return personRepository.getPersonList().stream()
                 .filter(person -> person.getEmail().equals(email))
-                .findFirst().orElseThrow(() -> new PersonActionException("Failed to get person by email"));
+                .findFirst()
+            .orElseThrow(() -> new PersonActionException("Failed to get person by email"));
     }
 
     public Optional<Person> findByEmail(final String email) {

@@ -1,10 +1,13 @@
 package pl.sdacademy.user;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
+
+import pl.sdacademy.exceptions.PersonUpdateFailedException;
 
 class PersonTest {
 
@@ -29,5 +32,15 @@ class PersonTest {
                 .startsWith(FIRST_NAME)
                 .endsWith(LAST_NAME)
                 .contains(" ");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenAgeIsNegative() {
+        final Person person = new Person();
+
+        final PersonUpdateFailedException throwable =
+            assertThrows(PersonUpdateFailedException.class,
+            () -> person.setPersonDetails("test@gmail.com", -1));
+        assertThat(throwable.getMessage()).isEqualTo("Age has to be positive");
     }
 }
