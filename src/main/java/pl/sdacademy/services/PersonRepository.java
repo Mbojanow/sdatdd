@@ -13,30 +13,8 @@ public class PersonRepository {
 
     public PersonRepository() {
         personList = Arrays.asList(
-                Person.builder()
-                        .age(22)
-                        .email("test1@gmail.com")
-                        .firstName("Andrzej")
-                        .lastName("Nowak")
-                        .build(),
-                Person.builder()
-                        .age(41)
-                        .email("test2@gmail.com")
-                        .firstName("Michal")
-                        .lastName("Bocian")
-                        .build(),
-                Person.builder()
-                        .age(27)
-                        .email("asd@wp.pl")
-                        .firstName("Karol")
-                        .lastName("Iksinski")
-                        .build(),
-                Person.builder()
-                        .age(31)
-                        .email("qwerty@o2.pl")
-                        .firstName("Robert")
-                        .lastName("NieKubica")
-                        .build());
+                new Person("fn", "ln", "test1@gmail.com", 21),
+                new Person("fn2", "ln2", "test2@gmail.com", 41));
     }
 
     public PersonRepository(final List<Person> persons) {

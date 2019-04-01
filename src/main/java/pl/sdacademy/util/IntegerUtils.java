@@ -33,7 +33,13 @@ public class IntegerUtils {
             number = number / 10;
         }
         digits.add(number);
-        return digits;
+
+        final List<Integer> reversed = new ArrayList<>();
+        for (int idx = digits.size() - 1; idx >= 0; idx--) {
+            reversed.add(digits.get(idx));
+        }
+
+        return reversed;
     }
 
     private List<Integer> toFilteredDigitsList(int number, final Predicate<? super Integer> filterPredicate) {

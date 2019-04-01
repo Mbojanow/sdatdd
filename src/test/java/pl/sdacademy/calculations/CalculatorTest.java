@@ -1,12 +1,16 @@
 package pl.sdacademy.calculations;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import pl.sdacademy.exceptions.DivisionByZeroException;
 
 class CalculatorTest {
 
@@ -71,4 +75,14 @@ class CalculatorTest {
     assertEquals(1, 2, "SDA CustomMessage");
   }
 
+  @Test
+  void shouldThrowExceptionWhenDividingByZero() {
+    try {
+      calculator.divide(5.0, 0.0);
+      fail("Exception not thrown");
+    } catch(final DivisionByZeroException exp) {
+      assertThat(exp.getMessage()).isEqualTo("Cannot divide by 0!");
+      assertThat(exp.getCause()).isNull();
+    }
+  }
 }

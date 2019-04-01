@@ -1,10 +1,12 @@
 package pl.sdacademy.calculations;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -54,5 +56,14 @@ class FibonacciSeriesTest {
   public static Stream<Arguments> getFibonacciParams() {
     return Stream.of(Arguments.of(1, 1),
         Arguments.of(10, 55));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenComputingValueWithNegativeIndex() {
+    final int negativeIndex = -1;
+
+    final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+        () -> fibonacciSeries.compute(negativeIndex));
+    assertThat(exception.getMessage()).isEqualTo("Index has to be positive");
   }
 }

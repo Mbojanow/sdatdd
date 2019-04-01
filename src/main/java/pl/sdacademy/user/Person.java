@@ -1,19 +1,12 @@
 package pl.sdacademy.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import pl.sdacademy.exceptions.PersonUpdateFailedException;
+import static java.util.Objects.isNull;
 
 import java.util.Optional;
 
-import static java.util.Objects.isNull;
+import pl.sdacademy.exceptions.PersonUpdateFailedException;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 public class Person {
     private String firstName;
     private String lastName;
@@ -49,5 +42,48 @@ public class Person {
 
         return Optional.of(firstName + lastName + "is " + age +
                 " years old and can be contacted by sending message to " + email);
+    }
+
+    public Person(final String firstName, final String lastName, final String email, final Integer age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.age = age;
+    }
+
+    public Person() {
+
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(final Integer age) {
+        this.age = age;
     }
 }

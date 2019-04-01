@@ -63,7 +63,7 @@ class IntegerUtilsTest2 {
     final Optional<Integer> actual = integerUtils.getFirstEvenDigit(testValue);
 
     //FIXME AT HOME POZ15 GROUP PLEASE OR I WILL BE SAD
-    assertThat(actual).isNotPresent().hasValue(2);
+    assertThat(actual).isPresent().hasValue(2);
   }
 
   @ParameterizedTest
