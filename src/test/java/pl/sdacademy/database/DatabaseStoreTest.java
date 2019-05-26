@@ -1,9 +1,12 @@
 package pl.sdacademy.database;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collections;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,6 +14,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import pl.sdacademy.exceptions.DatabaseConnectionException;
+import pl.sdacademy.exceptions.DatabaseStoreException;
 
 class DatabaseStoreTest {
 
@@ -31,6 +37,9 @@ class DatabaseStoreTest {
 
   @AfterEach
   void tearDown() {
+    if (!databaseConnection.isOpened()) {
+      databaseConnection.open();
+    }
     databaseStore.clean();
   }
 
@@ -60,5 +69,27 @@ class DatabaseStoreTest {
     databaseStore.removeData(data1, data2);
 
     assertIterableEquals(Collections.singletonList(data3), databaseStore.getData());
+  }
+
+  @Test
+  void shouldThrowExceptionWhenAddingDataAndDatabaseConnectionClosed() {
+    final String data = "someData";
+    databaseConnection.close();
+
+    assertThatThrownBy(() -> databaseStore.addData(data))
+        .hasMessage("Connection is not opened. Cannot add data")
+        .hasNoCause();
+  }
+
+  @Test
+  void shouldThrowExceptionWhenRemovingDataAndDatabaseConnectionIsClosed() {
+    final String data = "someData";
+    databaseConnection.close();
+
+    assertThatExceptionOfType(DatabaseStoreException.class)
+        .isThrownBy(() -> databaseStore.removeData(data))
+        .withMessage("Connection is not opened. Cannot remove data");
+
+
   }
 }

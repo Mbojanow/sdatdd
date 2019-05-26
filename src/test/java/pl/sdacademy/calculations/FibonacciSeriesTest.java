@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.Month;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -31,5 +32,14 @@ class FibonacciSeriesTest {
   @EnumSource(value = Month.class, names = "APRIL")
   void test(final Month month) {
     System.out.println(month);
+  }
+
+  @Test
+  void shouldThrowExceptionWhenCalculatingWithNonPositiveIndex() {
+    final int index = 0;
+
+    final Throwable exception = assertThrows(IllegalArgumentException.class,
+        () -> fibonacciSeries.compute(index));
+    assertThat(exception.getMessage()).contains("has to be positive") ;
   }
 }

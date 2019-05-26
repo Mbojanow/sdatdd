@@ -1,9 +1,12 @@
 package pl.sdacademy.calculations;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import pl.sdacademy.exceptions.DivisionByZeroException;
 
 class CalculatorTest {
 
@@ -50,5 +53,19 @@ class CalculatorTest {
   @Test
   void shouldAlwaysFail() {
     assertEquals(1, 2, "Jeden nie jest rowne dwa Panie!");
+  }
+
+  @Test
+  void shouldThrowExceptionWhenDividingByZero() {
+    final double val1 = 2.0;
+    final double val2 = 0.0;
+
+    try {
+      calculator.divide(val1, val2);
+      fail("Exception expected but not thrown");
+    } catch(final DivisionByZeroException exp) {
+      assertThat(exp.getMessage()).isEqualTo("Cannot divide by 0!");
+      assertThat(exp.getCause()).isNull();
+    }
   }
 }
