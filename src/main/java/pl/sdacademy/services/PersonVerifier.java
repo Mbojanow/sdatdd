@@ -19,6 +19,7 @@ public class PersonVerifier {
 
     public void isValid(final Person person) throws VerificationException {
         if (!ageVerifier.isAgeValid(person.getAge())) {
+            //surnameVerifier.test();
             throw new VerificationException("Age is invalid");
         }
 
