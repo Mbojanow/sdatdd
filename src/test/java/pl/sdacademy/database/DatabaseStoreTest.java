@@ -1,5 +1,6 @@
 package pl.sdacademy.database;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
@@ -85,8 +86,48 @@ class DatabaseStoreTest {
   }
 
   // test dla clean - gdy w bazie jest coś
-  // removeData - usunąć nieistniejący element
-  // removeData - bez argimentow
-  // addData - bez argumentow
+  @Test
+  void shouldCleanDataInDatabase() {
+    final String valA = "va";
+    final String valB = "vb";
+    databaseStore.addData(valA, valB);
 
+    databaseStore.clean();
+
+    assertThat(databaseStore.getData()).isEmpty();
+  }
+
+  // removeData - usunąć nieistniejący element
+  @Test
+  void shouldNotThrowWhenDeletingNonExistingElement() {
+    final String value = "I do not exist I am a ghost";
+    final String valA = "va";
+    databaseStore.addData(valA);
+
+    databaseStore.removeData(value);
+
+    assertThat(databaseStore.getData()).containsExactly(valA);
+  }
+
+  // removeData - bez argimentow
+  @Test
+  void shouldNotThrowWhenDeletingNoArguments() {
+    final String valA = "va";
+    databaseStore.addData(valA);
+
+    databaseStore.removeData();
+
+    assertThat(databaseStore.getData()).containsExactly(valA);
+  }
+
+  // addData - bez argumentow
+  @Test
+  void shouldNotAddDataWhenNoArgProvided() {
+    final String valA = "va";
+    databaseStore.addData(valA);
+
+    databaseStore.addData();
+
+    assertThat(databaseStore.getData()).containsExactly(valA);
+  }
 }

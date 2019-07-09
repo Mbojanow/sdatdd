@@ -19,10 +19,11 @@ public class DatabaseStore {
         data.clear();
     }
 
-    public void addData(final String ...values) {
+    public void addData(/*final String value,*/ final String ...values) {
         if (!databaseConnection.isOpened()) {
             throw new DatabaseStoreException("Connection is not opened. Cannot add data");
         }
+        //data.add(value);
         data.addAll(Arrays.asList(values));
     }
 
