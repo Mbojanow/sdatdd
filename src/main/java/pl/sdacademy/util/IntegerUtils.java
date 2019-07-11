@@ -30,11 +30,11 @@ public class IntegerUtils {
 
     private List<Integer> toDigitsList(int number) {
         final List<Integer> digits = new ArrayList<>();
-        while (abs(number) > 10) {
-            digits.add(number % 10);
+        while (number > 10 || number < -10) {
+            digits.add(Math.abs(number) % 10);
             number = number / 10;
         }
-        digits.add(abs(number));
+        digits.add(Math.abs(number));
         return digits;
     }
 
