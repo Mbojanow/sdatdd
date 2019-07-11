@@ -9,15 +9,18 @@ public class PersonVerifier {
     private final EmailVerifier emailVerifier;
     private final NameVerifier nameVerifier;
     private final SurnameVerifier surnameVerifier;
+    private final PersonSender personSender;
 
-    public PersonVerifier(final AgeVerifier ageVerifier, final EmailVerifier emailVerifier, final NameVerifier nameVerifier, final SurnameVerifier surnameVerifier) {
+    public PersonVerifier(final AgeVerifier ageVerifier, final EmailVerifier emailVerifier, final NameVerifier nameVerifier,
+                          final SurnameVerifier surnameVerifier, final PersonSender personSender) {
         this.ageVerifier = ageVerifier;
         this.emailVerifier = emailVerifier;
         this.nameVerifier = nameVerifier;
         this.surnameVerifier = surnameVerifier;
+        this.personSender = personSender;
     }
 
-    public void isValid(final Person person) throws VerificationException {
+    public void isValidAndSend(final Person person) throws VerificationException {
         if (!ageVerifier.isAgeValid(person.getAge())) {
             throw new VerificationException("Age is invalid");
         }
@@ -33,5 +36,6 @@ public class PersonVerifier {
         if (!surnameVerifier.isValid(person.getLastName())) {
             throw new VerificationException("Person last name is invalid");
         }
+        personSender.send(person);
     }
 }

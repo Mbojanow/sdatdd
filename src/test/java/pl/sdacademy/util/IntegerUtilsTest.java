@@ -3,12 +3,17 @@ package pl.sdacademy.util;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class IntegerUtilsTest {
 
@@ -67,9 +72,20 @@ class IntegerUtilsTest {
     assertThat(actualLastEvenDigit).isNotPresent();
   }
 
-  @Test
-  void x() {
-    integerUtils.filter(-12435, Arrays.asList(3, 4));
+  @ParameterizedTest
+  @MethodSource("testingArguments")
+  void shouldReturnListOfDigitFromGivenNumber(final int inputToFilter, final List<Integer> expected) {
+    final List<Integer> filtred = new ArrayList<>();
+    final List<Integer> actualValue = integerUtils.filter(inputToFilter, filtred);
+    assertEquals(expected, actualValue);
+//        assertThat(actualValue)
+//                .containsExactly(expected);
+  }
+  static Stream<Arguments> testingArguments() {
+    return Stream.of(
+        Arguments.of(12435, Arrays.asList(5, 3, 4, 2, 1)),
+        Arguments.of(-12435, Arrays.asList(5, 3, 4, 2, 1))
+    );
   }
 }
 
