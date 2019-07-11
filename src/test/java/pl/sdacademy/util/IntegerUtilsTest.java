@@ -66,6 +66,11 @@ class IntegerUtilsTest {
 
     assertThat(actualLastEvenDigit).isNotPresent();
   }
+
+  @Test
+  void x() {
+    integerUtils.filter(-12435, Arrays.asList(3, 4));
+  }
 }
 
 

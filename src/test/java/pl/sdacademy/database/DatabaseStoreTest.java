@@ -1,7 +1,10 @@
 package pl.sdacademy.database;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,6 +18,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import pl.sdacademy.exceptions.DatabaseStoreException;
+
 class DatabaseStoreTest {
 
   private static DatabaseConnection databaseConnection;
@@ -23,7 +28,6 @@ class DatabaseStoreTest {
   @BeforeAll
   static void setUpTestCase() {
     databaseConnection = new DatabaseConnection();
-    databaseConnection.open();
   }
 
   @AfterAll
@@ -33,6 +37,7 @@ class DatabaseStoreTest {
 
   @BeforeEach
   void setUp() {
+    databaseConnection.open();
     databaseStore = new DatabaseStore(databaseConnection);
     System.out.println("Starting next test");
   }
@@ -129,5 +134,26 @@ class DatabaseStoreTest {
     databaseStore.addData();
 
     assertThat(databaseStore.getData()).containsExactly(valA);
+  }
+
+  @Test
+  void shouldThrowExceptionWhenAddingDataAndConnectionIsClosed() {
+    //given
+    final String value = "someValue";
+    databaseConnection.close();
+
+    assertThatThrownBy(() -> databaseStore.addData(value))
+        .hasMessage("Connection is not opened. Cannot add data")
+        .hasNoCause();
+  }
+
+  @Test
+  void shouldThrowExceptionWhenRemovingDataAndConnectionIsClosed() {
+    databaseConnection.close();
+
+    assertThatExceptionOfType(DatabaseStoreException.class)
+        .isThrownBy(() -> databaseStore.removeData())
+        .withMessageContaining("is not opened. Cannot remove")
+        .withNoCause();
   }
 }

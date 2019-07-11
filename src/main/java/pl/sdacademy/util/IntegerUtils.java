@@ -1,5 +1,7 @@
 package pl.sdacademy.util;
 
+import static java.lang.Math.abs;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +11,7 @@ import java.util.stream.Collectors;
 public class IntegerUtils {
 
     public List<Integer> filter(int toFilter, final List<Integer> filters) {
-        return toFilteredDigitsList(toFilter, digit -> !filters.contains(digit));
+        return toFilteredDigitsList(toFilter, digit -> !filters.contains(abs(digit)));
     }
 
     public List<Integer> filterDigitsGreaterThan(int toFilter, final int lowerBoundExclusive) {
@@ -28,11 +30,11 @@ public class IntegerUtils {
 
     private List<Integer> toDigitsList(int number) {
         final List<Integer> digits = new ArrayList<>();
-        while (number > 10) {
+        while (abs(number) > 10) {
             digits.add(number % 10);
             number = number / 10;
         }
-        digits.add(number);
+        digits.add(abs(number));
         return digits;
     }
 
