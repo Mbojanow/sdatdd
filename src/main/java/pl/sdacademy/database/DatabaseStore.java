@@ -26,11 +26,12 @@ public class DatabaseStore {
         data.addAll(Arrays.asList(values));
     }
 
-    public void removeData(final String ...toRemove) {
+    public List<String> removeData(final String ...toRemove) {
         if (!databaseConnection.isOpened()) {
             throw new DatabaseStoreException("Connection is not opened. Cannot remove data");
         }
         data.removeAll(Arrays.asList(toRemove));
+        return data;
     }
 
     public List<String> getData() {
