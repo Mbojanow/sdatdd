@@ -1,46 +1,52 @@
 package pl.sdacademy.util;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.stream.Stream;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class PolishPersonUtilTest {
 
-    private PolishPersonUtil polishPersonUtil = new PolishPersonUtil();
+  private PolishPersonUtil polishPersonUtil;
 
-    @DisplayName("Value Source Test Example")
-    @ParameterizedTest(name = "{displayName} - [{index}] {arguments}")
-    @ValueSource(strings = {"Ela", "Kasia", "Ula"})
-    void shouldBePolishFemaleName(final String nameArg) {
-        final boolean result = polishPersonUtil.isPolishFemaleName(nameArg);
+  @BeforeEach
+  void setUp() {
+    polishPersonUtil = new PolishPersonUtil();
+  }
 
-        assertThat(result).isTrue();
-    }
+  @ValueSource(strings = { "Kowalski", "Kowalska" })
+  @ParameterizedTest
+  void shouldBeTypicalPolishSurname(final String surname) {
+    final boolean typicalPolishSurname = polishPersonUtil.isTypicalPolishSurname(surname);
 
-    @ParameterizedTest
-    @ValueSource(ints = {1, 2, 5, 22})
-    void shouldBeNaturalNumber(final int arg) {
-        assertTrue(arg > 0);
-    }
+    assertThat(typicalPolishSurname).isTrue();
+  }
 
-    @ParameterizedTest
-    @MethodSource("getTestArgs")
-    void fromMethodTest(final String name, final int age) {
-        final boolean isAdult = polishPersonUtil.isPolishFemaleAdult(name, age);
-        assertThat(isAdult).isTrue();
-    }
+  @ValueSource(strings = { "ski", "ska", "blablabla" })
+  @ParameterizedTest
+  void shouldNotBeTypicalPolishSurname(final String surname) {
+    final boolean typicalPolishSurname = polishPersonUtil.isTypicalPolishSurname(surname);
 
-    static Stream<Arguments> getTestArgs() {
-        return Stream.of(
-                Arguments.of("Marcin", 33),
-                Arguments.of("Andrzej", 28),
-                Arguments.of("Ula", 44));
-    }
+    assertThat(typicalPolishSurname).isFalse();
+  }
+
+  @CsvSource({"Ala, Kowalska", "Ula, Andrzejewska"})
+  @ParameterizedTest
+  void shouldBePolishWomanWithTypicalSurname(final String name, final String surname) {
+    final boolean womanWithTypicalPolishSurname = polishPersonUtil.isWomanWithTypicalPolishSurname(name, surname);
+
+    assertThat(womanWithTypicalPolishSurname).isTrue();
+  }
+
+  @CsvFileSource(resources = "/test.csv")
+  @ParameterizedTest
+  void shouldNotBePolishWomanWithTypicalSurname(final String name, final String surname) {
+    final boolean womanWithTypicalPolishSurname = polishPersonUtil.isWomanWithTypicalPolishSurname(name, surname);
+
+    assertThat(womanWithTypicalPolishSurname).isFalse();
+  }
 }
