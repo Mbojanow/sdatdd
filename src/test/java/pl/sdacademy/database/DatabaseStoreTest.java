@@ -1,5 +1,7 @@
 package pl.sdacademy.database;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
@@ -13,6 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import pl.sdacademy.exceptions.DatabaseStoreException;
 
 class DatabaseStoreTest {
 
@@ -41,6 +45,9 @@ class DatabaseStoreTest {
   @AfterEach
   void tearDown() {
     databaseStore.clean();
+    if (!databaseConnection.isOpened()) {
+      databaseConnection.open();
+    }
   }
 
   @Test
@@ -100,6 +107,27 @@ class DatabaseStoreTest {
     assertNotNull(actualDatabaseContent);
     // tez mozna uzyc assertEquals
     assertTrue(actualDatabaseContent.isEmpty());
+  }
+
+  @Test
+  void shouldThrowWhenAddingDataWithClosedConnection() {
+    // given
+    databaseConnection.close();
+
+    //then
+    assertThatThrownBy(() -> databaseStore.addData())
+        .hasMessageContaining("not opened")
+        .hasNoCause();
+  }
+
+  @Test
+  void shouldThrowWhenRemovingDataWithClosedConnection() {
+    databaseConnection.close();
+
+    assertThatExceptionOfType(DatabaseStoreException.class)
+        .isThrownBy(() -> databaseStore.removeData())
+        .withMessageContaining("not opened")
+        .withCause(null);
   }
 
   // DOPISAć resztę testów dla removeData

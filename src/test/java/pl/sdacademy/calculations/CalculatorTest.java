@@ -1,9 +1,13 @@
 package pl.sdacademy.calculations;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import pl.sdacademy.exceptions.DivisionByZeroException;
 
 class CalculatorTest {
 
@@ -51,5 +55,21 @@ class CalculatorTest {
   @Test
   void shouldAlwaysFails() {
     assertEquals(1L, 5L, "Longs are not equal");
+  }
+
+  @Test
+  void shouldThrowWhenDividingByZero() {
+    final double valA = 5.0;
+    final double divisor = 0.0;
+
+    try {
+      calculator.divide(valA, divisor);
+      fail("You successfully divided by zero - not fine, fix it");
+    } catch(final DivisionByZeroException exp) {
+      assertThat(exp)
+          .hasMessage("Cannot divide by 0!")
+          .hasNoCause();
+    }
+
   }
 }
