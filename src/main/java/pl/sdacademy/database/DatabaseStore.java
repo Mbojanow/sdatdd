@@ -8,7 +8,7 @@ import java.util.List;
 
 public class DatabaseStore {
 
-    private List<String> data = new ArrayList<>();
+    private final List<String> data = new ArrayList<>();
     private final DatabaseConnection databaseConnection;
 
     public DatabaseStore(final DatabaseConnection databaseConnection) {
