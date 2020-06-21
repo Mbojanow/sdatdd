@@ -17,6 +17,7 @@ public class PolishPersonUtil {
     }
 
     public boolean isWomanWithTypicalPolishSurname(final String name, final String surname) {
-        return false;
+        //return name.length() > 2 && name.endsWith("a") && surname.length() > 6 && (surname.endsWith("ska");
+        return isPolishFemaleName(name) && isTypicalPolishSurname(surname) && surname.endsWith("ska");
     }
 }

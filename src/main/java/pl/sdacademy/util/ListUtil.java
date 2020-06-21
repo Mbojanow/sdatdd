@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 public class ListUtil {
 
+    // ["A", "B", "C"] -> ["A"] ["B"], ["C"]
     public static List<String> createSingletonListWithRandomElement(final List<String> source) {
         if (source.isEmpty()) {
             return Collections.emptyList();
@@ -19,6 +20,7 @@ public class ListUtil {
         return Collections.singletonList(source.get(index));
     }
 
+    // ["a", "b", "c"] -> ["c", "b", "a"]
     public static List<String> getReversedList(final List<String> source) {
         final List<String> copiedList = new ArrayList<>(source);
         Collections.reverse(copiedList);
